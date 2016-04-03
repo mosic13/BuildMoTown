@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CitySimulationGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BuildingType">
+          <Key>
+            <PropertyRef Name="BuildingId" />
+          </Key>
+          <Property Name="BuildingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BuildingName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GoldCoins" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CityBuilding">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="BuildingId" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Levels" Type="int" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BStatus" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_CityBuilding_Building">
+          <End Role="BuildingType" Type="Self.BuildingType" Multiplicity="0..1" />
+          <End Role="CityBuilding" Type="Self.CityBuilding" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BuildingType">
+              <PropertyRef Name="BuildingId" />
+            </Principal>
+            <Dependent Role="CityBuilding">
+              <PropertyRef Name="BuildingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CityBuilding_City">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="CityBuilding" Type="Self.CityBuilding" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="CityBuilding">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CitySimulationGameModelStoreContainer">
+          <EntitySet Name="BuildingType" EntityType="Self.BuildingType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CityBuilding" EntityType="Self.CityBuilding" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CityBuilding_Building" Association="Self.FK_CityBuilding_Building">
+            <End Role="BuildingType" EntitySet="BuildingType" />
+            <End Role="CityBuilding" EntitySet="CityBuilding" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CityBuilding_City" Association="Self.FK_CityBuilding_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="CityBuilding" EntitySet="CityBuilding" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CitySimulationGameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GoldCoins" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CityBuildings" Relationship="Self.FK_CityBuilding_City" FromRole="City" ToRole="CityBuilding" />
+        </EntityType>
+        <EntityType Name="CityBuilding">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="BuildingId" Type="Int32" />
+          <NavigationProperty Name="City" Relationship="Self.FK_CityBuilding_City" FromRole="CityBuilding" ToRole="City" />
+          <Property Name="Levels" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BuildingType" Relationship="CitySimulationGameModel.FK_CityBuilding_Building1" FromRole="CityBuilding" ToRole="BuildingType" />
+        </EntityType>
+        <Association Name="FK_CityBuilding_City">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="CityBuilding" Type="Self.CityBuilding" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="CityBuilding">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CitySimulationGameEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="CityBuildings" EntityType="Self.CityBuilding" />
+          <AssociationSet Name="FK_CityBuilding_City" Association="Self.FK_CityBuilding_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="CityBuilding" EntitySet="CityBuildings" />
+          </AssociationSet>
+          <EntitySet Name="BuildingTypes" EntityType="CitySimulationGameModel.BuildingType" />
+          <AssociationSet Name="FK_CityBuilding_Building1" Association="CitySimulationGameModel.FK_CityBuilding_Building1">
+            <End Role="BuildingType" EntitySet="BuildingTypes" />
+            <End Role="CityBuilding" EntitySet="CityBuildings" />
+          </AssociationSet>
+          <EntitySet Name="Status" EntityType="CitySimulationGameModel.Status" />
+        </EntityContainer>
+        <EntityType Name="BuildingType">
+          <Key>
+            <PropertyRef Name="BuildingId" />
+          </Key>
+          <Property Name="BuildingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BuildingName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CityBuildings" Relationship="CitySimulationGameModel.FK_CityBuilding_Building1" FromRole="BuildingType" ToRole="CityBuilding" />
+        </EntityType>
+        <Association Name="FK_CityBuilding_Building1">
+          <End Type="CitySimulationGameModel.BuildingType" Role="BuildingType" Multiplicity="0..1" />
+          <End Type="CitySimulationGameModel.CityBuilding" Role="CityBuilding" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BuildingType">
+              <PropertyRef Name="BuildingId" />
+            </Principal>
+            <Dependent Role="CityBuilding">
+              <PropertyRef Name="BuildingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CitySimulationGameModelStoreContainer" CdmEntityContainer="CitySimulationGameEntities">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="CitySimulationGameModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="GoldCoins" ColumnName="GoldCoins" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CityBuildings">
+            <EntityTypeMapping TypeName="CitySimulationGameModel.CityBuilding">
+              <MappingFragment StoreEntitySet="CityBuilding">
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Levels" ColumnName="Levels" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BuildingTypes">
+            <EntityTypeMapping TypeName="CitySimulationGameModel.BuildingType">
+              <MappingFragment StoreEntitySet="BuildingType">
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="CitySimulationGameModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BStatus" ColumnName="BStatus" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

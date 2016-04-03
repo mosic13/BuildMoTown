@@ -1,0 +1,77 @@
+﻿@model IEnumerable<GameSimulationN.Models.Building>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add New Building", "Create")
+</p>
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th colspan="5">City name : @Html.DisplayFor(modelItem => item.CityName)</th>
+
+        </tr>
+        <tr>
+            <th colspan="5">Coins : @Html.DisplayFor(modelItem => item.GoldCoins)</th>
+
+        </tr>
+        break;
+    }
+    <tr>
+
+        @*<th>
+                @Html.DisplayNameFor(model => model.CityId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuildingId)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.BuildingName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Levels)
+        </th>
+        <th>
+               Upgrade Level
+            </th>
+
+        @*<th>
+                @Html.DisplayNameFor(model => model.ModifyDate)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.CityId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BuildingId)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.BuildingName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Levels)
+            </td>
+            <td>
+                @Html.ActionLink("Upgrade Level", "Edit", new { id = item.CityId })
+            </td>
+
+        </tr>
+    }
+
+</table>
