@@ -27,21 +27,22 @@ namespace GameSimulationN.Controllers
             List<Building> b = new List<Building>();
             b = br.GetBuildingByCity(id);
 
-           
+
             return View("Index", b);
         }
         public ActionResult Create()
         {
-           
+            int i = Convert.ToInt16( ViewBag.CityId);
+
             return View();
 
         }
         [HttpPost]
-        public ActionResult Create(BuildingType  buildingType)
+        public ActionResult Create(BuildingType buildingType)
         {
-            _repo.Create(buildingType);
+            _repo.Create(buildingType, Convert.ToInt16(ViewBag.CityId));
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", ViewBag.CityId);
 
         }
     }
