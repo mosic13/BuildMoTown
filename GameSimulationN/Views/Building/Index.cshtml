@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @Html.ActionLink("Upgrade Level", "Create", "Building", new { id = item.CityId }, null)
+                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { id = item.CityId }, null)
             </td>
 
         </tr>
