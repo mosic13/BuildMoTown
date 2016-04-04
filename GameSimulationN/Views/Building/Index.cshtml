@@ -7,30 +7,19 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Add New Building", "Create","Building", new { id = Model.SingleOrDefault().CityId})
+    @*@Html.ActionLink("Add New Building", "Create", "Building", new { id = 1 }, null)*@
+    @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, null)
 </p>
 <table class="table">
-    @foreach (var item in Model)
-    {
-        <tr>
-            <th colspan="5">City name : @Html.DisplayFor(modelItem => item.CityName)</th>
-
-        </tr>
-        <tr>
-            <th colspan="5">Coins : @Html.DisplayFor(modelItem => item.GoldCoins)</th>
-
-        </tr>
-        break;
-    }
+    @*@ViewBag.CityId = @Model.FirstOrDefault().CityId;*@
+    City name : @Model.FirstOrDefault().CityName)
+    <br />
+    Coins : @Model.FirstOrDefault().GoldCoins
     <tr>
-
-   <th>
-                
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CityName)
-            </th>
-            <th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityId)
+        </th>
+        @*<th>
                 @Html.DisplayNameFor(model => model.BuildingId)
             </th>*@
         <th>
@@ -40,27 +29,25 @@
             @Html.DisplayNameFor(model => model.Levels)
         </th>
         <th>
-               Upgrade Level
-            </th>
+            Upgrade Level
+        </th>
 
         @*<th>
                 @Html.DisplayNameFor(model => model.ModifyDate)
             </th>*@
         <th></th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
-            @*<td>
-                 @Html.HiddenFor("CityId",item.CityId)
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CityId)
+            </td>
+            @*   <td>
+                    @Html.DisplayFor(modelItem => item.BuildingId)
                 </td>*@
-              @*  <td>
-        @Html.DisplayFor(modelItem => item.CityName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.BuildingId)
-    </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.BuildingName)
             </td>
@@ -68,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @Html.ActionLink("Upgrade Level", "Edit", new { id = item.CityId })
+                @Html.ActionLink("Upgrade Level", "Create", "Building", new { id = item.CityId }, null)
             </td>
 
         </tr>

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
 namespace GameSimulationN.Models
 {
-    public class BuildingRepo :IBuilding
+    public class BuildingRepo : IBuilding
     {
         CitySimulationGameEntities _context;
 
@@ -14,7 +15,7 @@ namespace GameSimulationN.Models
             _context = new CitySimulationGameEntities();
         }
 
-       
+
 
         public List<Building> GetBuildingByCity(int CityId)
         {
@@ -30,7 +31,7 @@ namespace GameSimulationN.Models
                          Levels = cb.Levels,
                          GoldCoins = c.GoldCoins,
                          IsDefault = bt.IsDefault
-                     }).Where(x=>x.CityId == CityId);
+                     }).Where(x => x.CityId == CityId);
 
 
 
@@ -53,30 +54,39 @@ namespace GameSimulationN.Models
         }
 
 
-        public void Create(BuildingType Building)
+        public void Create(BuildingType Building, int CityId)
         {
+
             BuildingType bt = new BuildingType();
             bt.BuildingName = Building.BuildingName;
             bt.CreateDate = DateTime.Now;
             bt.ModifyDate = DateTime.Now;
             bt.IsDefault = false;
-
-            _context.BuildingTypes.Add(bt);
+            if (Building.BuildingId > 0)
+            {
+                _context.Entry(Building).State = EntityState.Modified;
+            }
+            else {
+                _context.BuildingTypes.Add(bt);
+            }
             _context.SaveChanges();
 
-            int buildingTypeId = bt.BuildingId;
+            if (Building.BuildingId < 1)
+            {
+                int buildingTypeId = bt.BuildingId;
 
-            CityBuilding cb = new CityBuilding();
-            cb.BuildingId = buildingTypeId;
-            //cb.CityId = building.CityId;
-            cb.CreateDate = DateTime.Now;
-            cb.ModifyDate = DateTime.Now;
-            cb.Levels = 1;
-            _context.CityBuildings.Add(cb);
-            _context.SaveChanges();
-
-
+                CityBuilding cb = new CityBuilding();
+                cb.BuildingId = buildingTypeId;
+                cb.CityId = CityId;
+                cb.CreateDate = DateTime.Now;
+                cb.ModifyDate = DateTime.Now;
+                cb.Levels = 1;
+                _context.CityBuildings.Add(cb);
+                _context.SaveChanges();
+            }
         }
+
+
     }
     public class Building
     {

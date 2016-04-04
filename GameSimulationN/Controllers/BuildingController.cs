@@ -29,21 +29,34 @@ namespace GameSimulationN.Controllers
 
 
             return View("Index", b);
-        }
-        public ActionResult Create()
+        } 
+        public ActionResult Create(int id)
         {
-            int i = Convert.ToInt16( ViewBag.CityId);
+            TempData["CityId"]= id;
 
             return View();
 
         }
-        [HttpPost]
-        public ActionResult Create(BuildingType buildingType)
-        {
-            _repo.Create(buildingType, Convert.ToInt16(ViewBag.CityId));
+        [HttpPost]// Model na?
+        public ActionResult Create(BuildingType buildingType )
+        {   
+            _repo.Create(buildingType, Convert.ToInt16(TempData["CityId"])); // yaha nikalu???nhik run karu??
+            
 
-            return RedirectToAction("Index", ViewBag.CityId);
+            return RedirectToAction("List", new {id= Convert.ToInt16(TempData["CityId"]) });
 
         }
+
+        [HttpPost]
+        public ActionResult Edit(BuildingType buildingType)
+        {
+            _repo.Create(buildingType, Convert.ToInt16(TempData["CityId"])); // yaha nikalu???nhik run karu??
+
+
+            return RedirectToAction("List", new { id = Convert.ToInt16(TempData["CityId"]) });
+
+        }
+
+
     }
 }
