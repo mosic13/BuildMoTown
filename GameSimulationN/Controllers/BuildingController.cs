@@ -37,11 +37,9 @@ namespace GameSimulationN.Controllers
 
         }
         [HttpPost]
-        public ActionResult Create(Building building)
+        public ActionResult Create(BuildingType  buildingType)
         {
-
-            _repo.Create(building);
-
+            _repo.Create(buildingType);
 
             return RedirectToAction("Index");
 

@@ -38,7 +38,6 @@ namespace GameSimulationN.Models
 
                 lstCb.Add(cb);
 
-
             }
 
             _context.CityBuildings.AddRange(lstCb);
@@ -67,11 +66,6 @@ namespace GameSimulationN.Models
             cb.Levels = 1;
             _context.CityBuildings.Add(cb);
             _context.SaveChanges();
-
-
-
-
-
 
         }
     }

@@ -25,7 +25,6 @@ namespace GameSimulationN.Controllers
         public ActionResult Create(BuildingType BuildingType)
         {
             _repo.Create(BuildingType);
-            _repo.SaveChange();
 
             return View();
         }

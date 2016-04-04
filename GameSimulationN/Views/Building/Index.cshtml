@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Add New Building", "Create")
+    @Html.ActionLink("Add New Building", "Create","Building", new { id = Model.SingleOrDefault().CityId})
 </p>
 <table class="table">
     @foreach (var item in Model)
@@ -24,10 +24,10 @@
     }
     <tr>
 
-        @*<th>
-                @Html.DisplayNameFor(model => model.CityId)
+   <th>
+                
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.CityName)
             </th>
             <th>
@@ -53,14 +53,14 @@
     {
         <tr>
             @*<td>
-                    @Html.DisplayFor(modelItem => item.CityId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CityName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BuildingId)
+                 @Html.HiddenFor("CityId",item.CityId)
                 </td>*@
+              @*  <td>
+        @Html.DisplayFor(modelItem => item.CityName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.BuildingId)
+    </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.BuildingName)
             </td>

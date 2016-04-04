@@ -47,12 +47,39 @@ namespace GameSimulationN.Models
 
         }
 
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
 
-       
+
+        public void Create(BuildingType Building)
+        {
+            BuildingType bt = new BuildingType();
+            bt.BuildingName = Building.BuildingName;
+            bt.CreateDate = DateTime.Now;
+            bt.ModifyDate = DateTime.Now;
+            bt.IsDefault = false;
+
+            _context.BuildingTypes.Add(bt);
+            _context.SaveChanges();
+
+            int buildingTypeId = bt.BuildingId;
+
+            CityBuilding cb = new CityBuilding();
+            cb.BuildingId = buildingTypeId;
+            //cb.CityId = building.CityId;
+            cb.CreateDate = DateTime.Now;
+            cb.ModifyDate = DateTime.Now;
+            cb.Levels = 1;
+            _context.CityBuildings.Add(cb);
+            _context.SaveChanges();
+
+
+        }
     }
     public class Building
     {
-
         public int CityId { get; set; }
         public string CityName { get; set; }
         public int BuildingId { get; set; }
@@ -60,9 +87,5 @@ namespace GameSimulationN.Models
         public Nullable<int> Levels { get; set; }
         public int GoldCoins { get; set; }
         public bool IsDefault { get; set; }
-
-
-
     }
-
 }
