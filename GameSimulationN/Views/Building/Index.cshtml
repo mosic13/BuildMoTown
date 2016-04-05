@@ -11,8 +11,8 @@
     @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, null)
 </p>
 <table class="table">
-    @*@ViewBag.CityId = @Model.FirstOrDefault().CityId;*@
-    City name : @Model.FirstOrDefault().CityName)
+    @*@ViewBag.CityId = @Model.FirstOrDefault().CityId ;*@
+    City name : @Model.FirstOrDefault().CityName
     <br />
     Coins : @Model.FirstOrDefault().GoldCoins
     <tr>
@@ -29,7 +29,7 @@
             @Html.DisplayNameFor(model => model.Levels)
         </th>
         <th>
-            Upgrade Level
+            @*Upgrade Level*@
         </th>
 
         @*<th>
@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { id = item.CityId }, null)
+                @*@Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { id = item.CityId }, null)*@
             </td>
 
         </tr>

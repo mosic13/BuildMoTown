@@ -57,9 +57,9 @@ namespace GameSimulationN.Controllers
 
         }
 
-        public ActionResult UpgradeLevel()
-        {
-            _repo.
-        }
+        //public ActionResult UpgradeLevel()
+        //{
+        //    //_repo.
+        //}
     }
 }
