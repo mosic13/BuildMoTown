@@ -88,9 +88,14 @@ namespace GameSimulationN.Models
 
         public void UpgradeLevel(int CityId, int BuildingId)
         {
-            //CityBuilding CB = new CityBuilding();
+            CityBuilding CB = new CityBuilding();
 
-            //CB = _context.CityBuildings.Single(level => level.Levels = LevelId);
+            int c = _context.CityBuildings.Select(x => x.Levels).FirstOrDefault().GetValueOrDefault();
+
+            CB.Levels = c++;
+
+            _context.CityBuildings.Add();
+            _context.SaveChanges();
 
         }
 
