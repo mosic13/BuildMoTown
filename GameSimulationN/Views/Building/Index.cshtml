@@ -7,13 +7,21 @@
 <h2>Building</h2>
 
 <p>
-    @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, null)
+    @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })
 </p>
+@*@ViewBag.CityId = @Model.FirstOrDefault().CityId ;*@
+<div class="clearfix">
+    <label class="control-label col-md-1 font-20" for="disabledInput">City: </label>
+    <div class="col-lg-3">
+        <input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled="">
+    </div>
+</div>
+<br/>
+<a href="#" class="btn btn-success">Coins $: <span class="badge">@Model.FirstOrDefault().GoldCoins</span> </a>
+<br />
+<br />
 <table class="table">
-    @*@ViewBag.CityId = @Model.FirstOrDefault().CityId ;*@
-    City name : @Model.FirstOrDefault().CityName
-    <br />
-    Coins : @Model.FirstOrDefault().GoldCoins
+
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.CityId)
@@ -51,10 +59,15 @@
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { CityId = item.CityId, BuildingId = item.BuildingId}, null)
+                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { CityId = item.CityId, BuildingId = item.BuildingId }, null)
             </td>
 
         </tr>
     }
 
+
 </table>
+
+<div>
+    @Html.ActionLink("← Back to City", "Index", "City", null, new { @class = "btn btn-primary" })
+</div>
