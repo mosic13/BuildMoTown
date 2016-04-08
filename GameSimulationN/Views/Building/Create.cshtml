@@ -31,7 +31,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("← Back to List", "List","Building",new {id = TempData["CityId"] }, new {@class="btn btn-primary" })
 </div>
 
 @section Scripts {
