@@ -32,7 +32,7 @@ namespace GameSimulationN.Models
                 cb = new CityBuilding();
                 cb.CityId = CityId;
                 cb.BuildingId = btype.BuildingId;
-                cb.Levels = 1;
+                cb.Levels = 0;
                 cb.ModifyDate = DateTime.Now;
                 cb.CreateDate = DateTime.Now;
 

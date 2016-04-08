@@ -1,13 +1,12 @@
 ﻿@model IEnumerable<GameSimulationN.Models.Building>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Building";
 }
 
-<h2>Index</h2>
+<h2>Building</h2>
 
 <p>
-    @*@Html.ActionLink("Add New Building", "Create", "Building", new { id = 1 }, null)*@
     @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, null)
 </p>
 <table class="table">
@@ -29,7 +28,7 @@
             @Html.DisplayNameFor(model => model.Levels)
         </th>
         <th>
-            @*Upgrade Level*@
+            Upgrade Level
         </th>
 
         @*<th>
@@ -45,9 +44,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CityId)
             </td>
-            @*   <td>
-                    @Html.DisplayFor(modelItem => item.BuildingId)
-                </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.BuildingName)
             </td>
@@ -55,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @*@Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { id = item.CityId }, null)*@
+                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { CityId = item.CityId, BuildingId = item.BuildingId}, null)
             </td>
 
         </tr>

@@ -36,17 +36,17 @@ namespace GameSimulationN.Models
         }
         public List<CityBuildingNew> GetCities()
         {
-            var a =  from c in _context.Cities
-            join cb in _context.CityBuildings on c.CityId equals cb.CityId
-            select new { c.CityId, c.CityName, c.GoldCoins } into x
-            group x by new { x.CityId, x.CityName, x.GoldCoins } into g
-            select new CityBuildingNew
-            {
-                CityId = g.Key.CityId,
-                CityName = g.Key.CityName,
-                GoldCoin = g.Key.GoldCoins,
-                Count = g.Count()
-            };
+            var a = from c in _context.Cities
+                    join cb in _context.CityBuildings on c.CityId equals cb.CityId
+                    select new { c.CityId, c.CityName, c.GoldCoins } into x
+                    group x by new { x.CityId, x.CityName, x.GoldCoins } into g
+                    select new CityBuildingNew
+                    {
+                        CityId = g.Key.CityId,
+                        CityName = g.Key.CityName,
+                        GoldCoin = g.Key.GoldCoins,
+                        Count = g.Count()
+                    };
 
 
             //return _context.Cities.ToList();
@@ -55,6 +55,30 @@ namespace GameSimulationN.Models
 
             return a.ToList();//
             //_context.CityBuildings.
+
+        }
+
+        public City GetCityByID(int CityId)
+        {
+
+            City ObjCity = new City();
+
+            ObjCity = (from c in _context.Cities
+                       select c)
+                    .Where(x => x.CityId == CityId).FirstOrDefault();
+
+            return ObjCity;
+        }
+
+        public City CityCoinUpdate(City objCIty, bool toBeAdded)
+        {
+
+            if (toBeAdded)
+                objCIty.GoldCoins = objCIty.GoldCoins + 1;
+            else
+                objCIty.GoldCoins = objCIty.GoldCoins - 1;
+
+            return objCIty;
 
         }
 

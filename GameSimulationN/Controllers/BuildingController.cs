@@ -40,7 +40,7 @@ namespace GameSimulationN.Controllers
         [HttpPost]// Model na?
         public ActionResult Create(BuildingType buildingType )
         {   
-            _repo.Create(buildingType, Convert.ToInt16(TempData["CityId"])); // yaha nikalu???nhik run karu??
+            _repo.Create(buildingType, Convert.ToInt16(TempData["CityId"]));
             
 
             return RedirectToAction("List", new {id= Convert.ToInt16(TempData["CityId"]) });
@@ -50,16 +50,19 @@ namespace GameSimulationN.Controllers
         [HttpPost]
         public ActionResult Edit(BuildingType buildingType)
         {
-            _repo.Create(buildingType, Convert.ToInt16(TempData["CityId"])); // yaha nikalu???nhik run karu??
-
+            _repo.Create(buildingType, Convert.ToInt16(TempData["CityId"]));
 
             return RedirectToAction("List", new { id = Convert.ToInt16(TempData["CityId"]) });
 
         }
 
-        //public ActionResult UpgradeLevel()
-        //{
-        //    //_repo.
-        //}
+        public ActionResult UpgradeLevel(int CityId , int BuildingId)
+        {
+            _repo.UpgradeLevel(CityId, BuildingId);
+
+            return RedirectToAction("List", new { id = CityId });
+
+
+        }
     }
 }

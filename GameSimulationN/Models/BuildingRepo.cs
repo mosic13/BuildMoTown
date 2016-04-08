@@ -53,7 +53,6 @@ namespace GameSimulationN.Models
             _context.SaveChanges();
         }
 
-
         public void Create(BuildingType Building, int CityId)
         {
 
@@ -78,9 +77,9 @@ namespace GameSimulationN.Models
                 CityBuilding cb = new CityBuilding();
                 cb.BuildingId = buildingTypeId;
                 cb.CityId = CityId;
+                cb.Levels = 0;
                 cb.CreateDate = DateTime.Now;
                 cb.ModifyDate = DateTime.Now;
-                cb.Levels = 1;
                 _context.CityBuildings.Add(cb);
                 _context.SaveChanges();
             }
@@ -88,18 +87,35 @@ namespace GameSimulationN.Models
 
         public void UpgradeLevel(int CityId, int BuildingId)
         {
-            CityBuilding CB = new CityBuilding();
+            //CityBuilding CB = new CityBuilding() { CityId = CityId, BuildingId = BuildingId };
+            // Get Object to update the Level by CIty and Bldg Id
+            CityBuilding cBld = new CityBuilding();
+            cBld = GetCityBuildingByCBId(CityId, BuildingId);
+            cBld.Levels = cBld.Levels + 1;
+            _context.Entry(cBld).State = EntityState.Modified;
+            _context.SaveChanges();
+            
+            CityRepo cr = new CityRepo();
+            cBld.City = cr.CityCoinUpdate(cBld.City, false);
+            _context.Entry(cBld.City).State = EntityState.Modified; 
 
-            int c = _context.CityBuildings.Select(x => x.Levels).FirstOrDefault().GetValueOrDefault();
-
-            CB.Levels = c++;
-
-            _context.CityBuildings.Add();
             _context.SaveChanges();
 
         }
 
+        private CityBuilding GetCityBuildingByCBId(int CityId, int BldgId)
+        {
+            CityBuilding cb = new CityBuilding();
+            //_context.CityBuildings.(;
 
+
+            cb = (from cb1 in _context.CityBuildings
+                  select cb1)
+                    .Where(x => x.CityId == CityId).Where(b => b.BuildingId == BldgId).FirstOrDefault();
+
+            return cb;
+
+        }
     }
     public class Building
     {
