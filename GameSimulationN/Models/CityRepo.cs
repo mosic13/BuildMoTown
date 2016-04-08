@@ -49,6 +49,21 @@ namespace GameSimulationN.Models
                     };
 
 
+            //var a = from c in _context.Cities
+            //        join cb in _context.CityBuildings on c.CityId equals cb.CityId into t
+            //        //from rt in t.DefaultIfEmpty()
+            //        select new { c.CityId, c.CityName, c.GoldCoins } into x
+            //        group x by new { x.CityId, x.CityName, x.GoldCoins } into g
+            //        select new CityBuildingNew
+            //        {
+            //            CityId = g.Key.CityId,
+            //            CityName = g.Key.CityName,
+            //            GoldCoin = g.Key.GoldCoins,
+            //            Count = g.Count()
+            //        };
+
+
+
             //return _context.Cities.ToList();
 
 

@@ -24,35 +24,68 @@
             @Html.DisplayNameFor(model => model.Count)
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.ModifyDate)
-        </th>*@
+                @Html.DisplayNameFor(model => model.ModifyDate)
+            </th>*@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CityId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CityName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GoldCoin)
-        </td>
-        <td>
-            @{string count = item.Count.ToString();}
-            @*@Html.ActionLink("count", "BuildingList", new { id = item.CityId})*@
-            @Html.ActionLink(count + " Buildings","List","Building", new { id = item.CityId},null)
-            
-        </td>
-        
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoldCoin)
+            </td>
+            @*<td>
+                @if (item.Count > 0)
+                {
+                    @string count = item.Count.ToString();
+                    @Html.ActionLink(count + " Buildings", "List", "Building", new { id = item.CityId }, null);
+                }
+                else
+                {
+                    Html.DisplayText("No Buildings");
+                }
+                
+                
+
+
+
+
+            </td>*@
+
+            @*<td>
+                @{string count = item.Count.ToString();}
+                @if (item.Count > 1)
+                {
+                
+                @Html.ActionLink(count + " Buildings", "List", "Building", new { id = item.CityId }, null)
+                }
+                else
+                {
+                    Html.Raw("No Buildings");
+
+                }
+            </td>*@
+
+            <td>
+                @{string count = item.Count.ToString();}
+                @*@Html.ActionLink("count", "BuildingList", new { id = item.CityId})*@
+                @Html.ActionLink(count + " Buildings", "List", "Building", new { id = item.CityId }, null)
+
+            </td>
+
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { id=item.CityId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.CityId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.CityId })*@
+                    @Html.ActionLink("Details", "Details", new { id=item.CityId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.CityId })*@
             </td>
-    </tr>
-}
+        </tr>
+    }
 
 </table>
