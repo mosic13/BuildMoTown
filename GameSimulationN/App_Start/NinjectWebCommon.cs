@@ -62,7 +62,7 @@ namespace GameSimulationN.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<ICityRepository>().To<CityRepository>();
-            kernel.Bind<IBuilding>().To<BuildingRepository>();
+            kernel.Bind<IBuildingRepository>().To<BuildingRepository>();
             //kernel.Bind<ICityRepository>().To<CityRepo>();
         }        
     }

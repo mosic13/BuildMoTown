@@ -211,7 +211,6 @@
       <DependentUpon>Game.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IBuildingRepository.cs" />
-    <Compile Include="Models\IBuildingType.cs" />
     <Compile Include="Models\IBuildingTypeRepository.cs" />
     <Compile Include="Models\ICityBuildingRepository.cs" />
     <Compile Include="Models\ICityRepository.cs" />

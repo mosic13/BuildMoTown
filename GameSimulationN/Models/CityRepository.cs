@@ -85,7 +85,7 @@ namespace GameSimulationN.Models
 
 
 
-            return lstCityVM[0];//
+            return lstCityVM;//
             //_context.CityBuildings.
 
         }

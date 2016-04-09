@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 namespace GameSimulationN.Models
 {
-    public interface IBuilding
+    public interface IBuildingRepository
     {
         List<Building> GetBuildingByCity(int CityId);
         void Create(BuildingType Building, int CityId);
