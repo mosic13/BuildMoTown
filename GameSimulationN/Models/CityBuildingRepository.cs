@@ -2,11 +2,11 @@
 
 namespace GameSimulationN.Models
 {
-    public class CityBuildingRepo //: ICityBuildingRepository
+    public class CityBuildingRepository //: ICityBuildingRepository
     {
         CitySimulationGameEntities _context;
 
-        public CityBuildingRepo()
+        public CityBuildingRepository()
         {
             _context = new CitySimulationGameEntities();
         }

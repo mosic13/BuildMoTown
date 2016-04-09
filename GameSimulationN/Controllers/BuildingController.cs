@@ -1,6 +1,7 @@
 ﻿using GameSimulationN.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,8 +10,8 @@ namespace GameSimulationN.Controllers
 {
     public class BuildingController : Controller
     {
-        private IBuilding _repo;
-        public BuildingController(IBuilding repo)
+        private IBuildingRepository _repo;
+        public BuildingController(IBuildingRepository repo)
         {
             _repo = repo;
         }
@@ -23,7 +24,7 @@ namespace GameSimulationN.Controllers
 
         public ActionResult List(int id)
         {
-            BuildingRepo br = new BuildingRepo();
+            BuildingRepository br = new BuildingRepository();
             List<Building> b = new List<Building>();
             b = br.GetBuildingByCity(id);
 
@@ -33,17 +34,17 @@ namespace GameSimulationN.Controllers
         public ActionResult Create(int id)
         {
             TempData["CityId"]= id;
-
+           
             return View();
 
         }
-        [HttpPost]// Model na?
-        public ActionResult Create(BuildingType buildingType )
-        {   
-            _repo.Create(buildingType, Convert.ToInt16(TempData["CityId"]));
-            
 
-            return RedirectToAction("List", new {id= Convert.ToInt16(TempData["CityId"]) });
+        [HttpPost]
+        public ActionResult Create(BuildingType buildingType)
+        {   
+            _repo.Create(buildingType, Convert.ToInt16(TempData.Peek("CityId")));
+
+            return RedirectToAction("List", new {id= Convert.ToInt16(TempData.Peek("CityId")) });
 
         }
 

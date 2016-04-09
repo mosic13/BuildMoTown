@@ -10,23 +10,23 @@ namespace GameSimulationN.Controllers
     public class BuildingTypeController : Controller
     {
 
-        private IBuildingType _repo;
-        public BuildingTypeController(IBuildingType repo)
-        {
-            _repo = repo;
-        }
+        //private IBuildingType _repo;
+        //public BuildingTypeController(IBuildingType repo)
+        //{
+        //    _repo = repo;
+        //}
 
         // GET: BuildingType
         public ActionResult Index()
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult Create(BuildingType BuildingType)
-        {
-            _repo.Create(BuildingType);
+        //[HttpPost]
+        //public ActionResult Create(BuildingType BuildingType)
+        //{
+        //    _repo.Create(BuildingType);
 
-            return View();
-        }
+        //    return View();
+        //}
     }
 }

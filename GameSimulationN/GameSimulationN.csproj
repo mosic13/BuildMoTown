@@ -182,20 +182,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BuildingRepo.cs" />
+    <Compile Include="Models\BuildingRepository.cs" />
     <Compile Include="Models\BuildingType.cs">
       <DependentUpon>Game.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BuildingTypeRepo.cs" />
+    <Compile Include="Models\BuildingTypeRepository.cs" />
     <Compile Include="Models\City.cs">
       <DependentUpon>Game.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CityBuilding.cs">
       <DependentUpon>Game.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CityBuildingNew.cs" />
-    <Compile Include="Models\CityBuildingRepo.cs" />
-    <Compile Include="Models\CityRepo.cs" />
+    <Compile Include="Models\CityBuildingRepository.cs" />
+    <Compile Include="Models\CityRepository.cs" />
     <Compile Include="Models\Game.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -211,13 +210,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Game.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\IBuilding.cs" />
-    <Compile Include="Models\IBuildingType.cs" />
+    <Compile Include="Models\IBuildingRepository.cs" />
+    <Compile Include="Models\IBuildingTypeRepository.cs" />
     <Compile Include="Models\ICityBuildingRepository.cs" />
     <Compile Include="Models\ICityRepository.cs" />
     <Compile Include="Models\Status.cs">
       <DependentUpon>Game.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\CityViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ namespace GameSimulationN.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class City
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +21,7 @@ namespace GameSimulationN.Models
         }
     
         public int CityId { get; set; }
+        [Required]
         public string CityName { get; set; }
         public int GoldCoins { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
