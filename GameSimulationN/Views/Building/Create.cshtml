@@ -4,13 +4,13 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create Building Type</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>BuildingType</h4>
         <hr />
@@ -31,7 +31,7 @@
 }
 
 <div>
-    @Html.ActionLink("← Back to List", "List","Building",new {id = TempData["CityId"] }, new {@class="btn btn-primary" })
+    @Html.ActionLink("← Back to List", "List", "Building", new { id = TempData.Peek("CityId")}, new { @class = "btn btn-primary" })
 </div>
 
 @section Scripts {

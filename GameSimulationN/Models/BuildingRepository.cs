@@ -6,13 +6,14 @@ using System.Web;
 
 namespace GameSimulationN.Models
 {
-    public class BuildingRepo : IBuilding
+    public class BuildingRepository : IBuilding
     {
         CitySimulationGameEntities _context;
-
-        public BuildingRepo()
+        CityRepository _cityRepo;
+        public BuildingRepository()
         {
             _context = new CitySimulationGameEntities();
+            _cityRepo = new CityRepository();
         }
 
 
@@ -55,24 +56,29 @@ namespace GameSimulationN.Models
 
         public void Create(BuildingType Building, int CityId)
         {
+            var city  = _cityRepo.GetCityByID(CityId);
+            //BuildingType bt = new BuildingType();
+            //bt.BuildingName = Building.BuildingName;
+            //bt.CreateDate = DateTime.Now;
+            //bt.ModifyDate = DateTime.Now;
+            //bt.IsDefault = false;
+            Building.CreateDate = DateTime.Now;
+            Building.ModifyDate = DateTime.Now;
+            Building.IsDefault = false;
+            ////city.CityBuildings.Add(Building);
 
-            BuildingType bt = new BuildingType();
-            bt.BuildingName = Building.BuildingName;
-            bt.CreateDate = DateTime.Now;
-            bt.ModifyDate = DateTime.Now;
-            bt.IsDefault = false;
             if (Building.BuildingId > 0)
             {
                 _context.Entry(Building).State = EntityState.Modified;
             }
             else {
-                _context.BuildingTypes.Add(bt);
+                _context.BuildingTypes.Add(Building);
             }
-            _context.SaveChanges();
+           // _context.SaveChanges();
 
             if (Building.BuildingId < 1)
             {
-                int buildingTypeId = bt.BuildingId;
+                int buildingTypeId = Building.BuildingId;
 
                 CityBuilding cb = new CityBuilding();
                 cb.BuildingId = buildingTypeId;
@@ -81,8 +87,14 @@ namespace GameSimulationN.Models
                 cb.CreateDate = DateTime.Now;
                 cb.ModifyDate = DateTime.Now;
                 _context.CityBuildings.Add(cb);
-                _context.SaveChanges();
+               // _context.SaveChanges();
+
+                
+                UpdateCoin_Create(CityId);
+
+                //UpdateCoin(cb);
             }
+            _context.SaveChanges();
         }
 
         public void UpgradeLevel(int CityId, int BuildingId)
@@ -94,14 +106,34 @@ namespace GameSimulationN.Models
             cBld.Levels = cBld.Levels + 1;
             _context.Entry(cBld).State = EntityState.Modified;
             _context.SaveChanges();
-            
-            CityRepo cr = new CityRepo();
-            cBld.City = cr.CityCoinUpdate(cBld.City, false);
-            _context.Entry(cBld.City).State = EntityState.Modified; 
 
-            _context.SaveChanges();
+            UpdateCoin(cBld);
 
         }
+
+        public void UpdateCoin(CityBuilding cBld)
+        {
+            CityRepository cr = new CityRepository();
+            cBld.City = cr.CityCoinUpdate(cBld.City, false);
+            _context.Cities.Attach(cBld.City);
+            _context.Entry(cBld.City).State = EntityState.Modified; //---Monali Today
+            _context.SaveChanges(); //---Monali Today
+        }
+
+        public void UpdateCoin_Create(int CityID)
+        {
+
+            CityRepository cr = new CityRepository();
+            City c = new City();
+           
+            c = cr.GetCityByID(CityID);
+            c = cr.CityCoinUpdate(c, false);
+            //_context.Cities.Attach(c);
+            _context.Entry(c).State = EntityState.Modified; //---Monali Today
+            //_context.SaveChanges(); //---Monali Today
+        }
+
+
 
         private CityBuilding GetCityBuildingByCBId(int CityId, int BldgId)
         {

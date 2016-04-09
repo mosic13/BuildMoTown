@@ -5,11 +5,11 @@ using System.Web;
 
 namespace GameSimulationN.Models
 {
-    public class BuildingTypeRepo //:IBuildingType
+    public class BuildingTypeRepository : IBuildingTypeRepository //:IBuildingType
     {
         CitySimulationGameEntities _context;
 
-        public BuildingTypeRepo()
+        public BuildingTypeRepository()
         {
             _context = new CitySimulationGameEntities();
         }

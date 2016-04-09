@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GameSimulationN.Models.CityBuildingNew>
+﻿@model IEnumerable<GameSimulationN.Models.ViewModel.CityViewModel>
 
 @{
     ViewBag.Title = "Home";
@@ -18,7 +18,7 @@
             @Html.DisplayNameFor(model => model.CityName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.GoldCoin)
+            @Html.DisplayNameFor(model => model.GoldCoins)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Count)

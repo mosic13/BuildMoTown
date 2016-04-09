@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameSimulationN.Models.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace GameSimulationN.Models
     {
         City Create(City city);
         int Save();
-        List<CityBuildingNew> GetCities();
+        List<CityViewModel> GetCities();
         void Create(BuildingType building);
     }
 }
