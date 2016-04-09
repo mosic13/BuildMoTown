@@ -31,6 +31,7 @@ namespace GameSimulationN.Controllers
         [HttpPost]
         public ActionResult Create(City city)
         {
+            city.GoldCoins = 10;
             _repo.Create(city);
             _repo.Save();
 
