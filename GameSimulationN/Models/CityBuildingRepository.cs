@@ -11,11 +11,6 @@ namespace GameSimulationN.Models
             _context = new CitySimulationGameEntities();
         }
 
-        //CityBuilding ICityBuildingRepository.Create()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
 
         public void Create(CityBuilding cityBuilding )
         {
@@ -26,13 +21,7 @@ namespace GameSimulationN.Models
 
         public void GetLevelValue(int CityId, int BuildingID)
         {
-           
-            //var a = from bt in _context.CityBuildings
-            //        where bt.CityId = CityId and 
-            //        from b in context.Blogs
-            //        where b.Name.StartsWith("B")
-            //        select b;
-
+        
 
         }
 

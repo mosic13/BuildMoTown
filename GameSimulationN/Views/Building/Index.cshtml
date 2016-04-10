@@ -6,6 +6,10 @@
 
 <h2>Building</h2>
 
+<div>
+    @*<input class="form-control" id="disabledInput" type="text" >*@
+    @*@Html.ActionLink("Add New Building", "Create", "BuildingType", new { BuildingName = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })*@
+</div>
 <p>
     @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })
 </p>
@@ -16,11 +20,19 @@
         <input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled="">
     </div>
 </div>
-<br/>
-<a href="#" class="btn btn-success">Coins 
-    <img src="~/Content/Coins-icon.png" /> <span class="badge">@Model.FirstOrDefault().GoldCoins</span> </a>
 <br />
+<a href="#" class="btn btn-success" id="idCoins">
+    Coins
+    <img src="~/Content/Coins-icon.png" /> <span id="coinCount" class="badge">@Model.FirstOrDefault().GoldCoins</span>
+    @Html.ActionLink("Coinsssss", "GetCoin", "City", new { Model.FirstOrDefault().CityId }, null)
+
+</a>
+
+@*<input id="btnCl" type="button" value="Click me" />*@
+
+
 <br />
+
 <table class="table">
 
     <tr>
@@ -48,8 +60,6 @@
     @foreach (var item in Model)
     {
         <tr>
-
-
             <td>
                 @Html.DisplayFor(modelItem => item.CityId)
             </td>
@@ -60,15 +70,69 @@
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { CityId = item.CityId, BuildingId = item.BuildingId }, null)
+                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { CityId = item.CityId, BuildingId = item.BuildingId }, new { id = "btnUpgrade" + item.BuildingId.ToString(), onclick = "UpgradeLevel(" + item.CityId + "," + item.BuildingId + ")" })
             </td>
-
         </tr>
     }
-
-
 </table>
 
 <div>
     @Html.ActionLink("← Back to City", "Index", "City", null, new { @class = "btn btn-primary" })
 </div>
+
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var autoRefresh = true;
+    var autoRefreshInterval = 1000 * 300;   //mili seconds (set to 5 seconds)
+    var count = 0;
+
+    $(document).ready(function () {
+
+        window.setInterval(function () {
+            refresh();
+        }, 5000);
+
+        function UpgradeLevel(CityId, BuildingId) {
+            $.ajax({
+                type: 'GET',
+                data: { CityId: 1, BuildingId: 5 },
+                url: '@Url.Action("UpgradeLevel", "Building")',
+                success: function (result) {
+                    //alert("success");
+                    $("#coinCount").html(count + ": " + result);
+                    coinCount
+                    //alert("html result:-" + count + result);
+                }
+            });
+        }
+
+        function refresh() {
+            count++;
+            $.ajax({
+                type: 'GET',
+                data: { CityId: 1 },
+                url: '@Url.Action("GetCoin", "Building")',
+                success: function (result) {
+                    //alert("success");
+                    $("#coinCount").html(result);
+                    coinCount
+                    //alert("html result:-" + count + result);
+                }
+            });
+        }
+
+        @*var refresh = function () {
+            if (autoRefresh) {
+                debugger;
+                $('#idCoins').load('@Url.Action("GetCoin", "City")');
+                $('#lbl').innerHtml("refreshing...");
+            }
+
+        };
+
+        refresh();*@
+
+    });
+
+</script>
