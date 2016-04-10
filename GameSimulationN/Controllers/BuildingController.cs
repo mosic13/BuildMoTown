@@ -49,33 +49,7 @@ namespace GameSimulationN.Controllers
             return RedirectToAction("List", new { id = Convert.ToInt16(TempData.Peek("CityId")) });
 
         }
-
-
-
-        //[HttpPost]
-        //[AsyncTimeout(10000)]
-        //public ActionResult Create(BuildingType buildingType)
-        //{
-        //    //await Task.Run(() => Thread.Sleep(10000))
-        //    //await Task.Delay(3000);
-
-        //    _repo.Create(buildingType, Convert.ToInt16(TempData.Peek("CityId")));
-
-        //    return RedirectToAction("List", new {id= Convert.ToInt16(TempData.Peek("CityId")) });
-
-        //}
-        //public async void CallMyProcess()
-        //{
-        //    await TimeconsumingProcess();
-        //    Console.WriteLine("Time Consuming Process end");
-        //}
-
-        //public async void CallMe()
-        //{
-        //    CallMyProcess();
-        //    Console.WriteLine("Program execution completed");
-        //}
-
+        
         [HttpPost]
         public ActionResult Edit(BuildingType buildingType)
         {
@@ -88,11 +62,11 @@ namespace GameSimulationN.Controllers
         public ActionResult UpgradeLevel(int CityId , int BuildingId)
         {
             _repo.UpgradeLevel(CityId, BuildingId);
+            BuildingRepository br = new BuildingRepository();
+            List<Building> b = new List<Building>();
+            Building b1 = br.GetBuildingByCity(CityId).Where(x => x.BuildingId == BuildingId).Single();
 
-            return RedirectToAction("List", new { id = CityId });
-            //return Json("List", new { id = CityId });
-            // return Json(,)
-
+            return Json(b1, JsonRequestBehavior.AllowGet);
 
         }
 

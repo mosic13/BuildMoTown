@@ -6,35 +6,25 @@
 
 <h2>Building</h2>
 
-<div>
-    @*<input class="form-control" id="disabledInput" type="text" >*@
-    @*@Html.ActionLink("Add New Building", "Create", "BuildingType", new { BuildingName = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })*@
-</div>
 <p>
     @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })
 </p>
-@*@ViewBag.CityId = @Model.FirstOrDefault().CityId ;*@
 <div class="clearfix">
     <label class="control-label col-md-1 font-20" for="disabledInput">City: </label>
     <div class="col-lg-3">
         <input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled="">
         <input class="form-control" id="cityId" type="text" value="@Model.FirstOrDefault().CityId" style="visibility:hidden">
+        <input class="form-control" id="bldId" type="text" value="@Model.FirstOrDefault().BuildingId" style="visibility:hidden">
     </div>
 </div>
 <br />
 <a href="#" class="btn btn-success" id="idCoins">
     Coins
     <img src="~/Content/Coins-icon.png" /> <span id="coinCount" class="badge">@Model.FirstOrDefault().GoldCoins</span>
-    @Html.ActionLink("Coinsssss", "GetCoin", "City", new { Model.FirstOrDefault().CityId }, null)
-
 </a>
-
-@*<input id="btnCl" type="button" value="Click me" />*@
-
-
 <br />
 
-<table class="table">
+<table class="table" id="tableBuild">
 
     <tr>
         <th>
@@ -67,12 +57,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.BuildingName)
             </td>
-            <td>
+            <td class="level">
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { CityId = item.CityId, BuildingId = item.BuildingId }, new { id = "btnUpgrade" + item.BuildingId.ToString(), onclick = "UpgradeLevel(" + item.CityId + "," + item.BuildingId + ")" })
-            </td>
+                <button class="btn btn-primary btnUpgrade" data-building-id="@item.BuildingId" data-city-id="@item.CityId" id="@("building"+@item.BuildingId)">Upgrade Level ↑</button>
+</td>
         </tr>
     }
 </table>
@@ -85,55 +75,44 @@
 <script type="text/javascript">
 
     var autoRefresh = true;
-    var autoRefreshInterval = 1000 * 300;   //mili seconds (set to 5 seconds)
+    var autoRefreshInterval = 1000 * 30;   //mili seconds (set to 5 seconds)
     var count = 0;
 
     $(document).ready(function () {
-
+       
         window.setInterval(function () {
             refresh();
         }, 5000);
 
-        function UpgradeLevel(CityId, BuildingId) {
-            $.ajax({
-                type: 'GET',
-                data: { CityId: 1, BuildingId: 5 },
-                url: '@Url.Action("UpgradeLevel", "Building")',
-                success: function (result) {
-                    //alert("success");
-                    $("#coinCount").html(count + ": " + result);
-                    coinCount
-                    //alert("html result:-" + count + result);
-                }
-            });
-        }
-
+        
+        
         function refresh() {
-            var cId = $("#cityId%>").val();
+            var cId = $("#cityId").val();
             count++;
             $.ajax({
                 type: 'GET',
                 data: { CityId: cId },
                 url: '@Url.Action("GetCoin", "Building")',
                 success: function (result) {
-                    //alert("success");
-                    $("#coinCount").html(result);
-                    coinCount
-                    //alert("html result:-" + count + result);
+                    $("#coinCount").html(result)
                 }
             });
         }
 
-        @*var refresh = function () {
-            if (autoRefresh) {
-                debugger;
-                $('#idCoins').load('@Url.Action("GetCoin", "City")');
-                $('#lbl').innerHtml("refreshing...");
-            }
-
-        };
-
-        refresh();*@
+        $(".btnUpgrade").click(function () {
+            var Bid = $(this).data("building-id");
+            var Cid = $(this).data("city-id");
+            var level;
+            $.ajax({
+                type: 'GET',
+                data: { CityId: Cid, BuildingId: Bid },
+                url: '@Url.Action("UpgradeLevel", "Building")',
+                success: function (result) {
+                    $("#building" + result.BuildingId).parent().parent().find("td.level").html(result.Levels);
+                    refresh();
+                }
+            });
+        });
 
     });
 
