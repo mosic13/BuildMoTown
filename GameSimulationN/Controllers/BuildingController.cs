@@ -59,15 +59,19 @@ namespace GameSimulationN.Controllers
 
         }
 
-        public ActionResult UpgradeLevel(int CityId , int BuildingId)
+        public ActionResult UpgradeLevel(int CityId, int BuildingId)
         {
-            _repo.UpgradeLevel(CityId, BuildingId);
-            BuildingRepository br = new BuildingRepository();
-            List<Building> b = new List<Building>();
-            Building b1 = br.GetBuildingByCity(CityId).Where(x => x.BuildingId == BuildingId).Single();
+            bool t = _repo.UpgradeLevel(CityId, BuildingId);
+            if (t)
+            {
+                BuildingRepository br = new BuildingRepository();
+                List<Building> b = new List<Building>();
+                Building b1 = br.GetBuildingByCity(CityId).Where(x => x.BuildingId == BuildingId).Single();
 
-            return Json(b1, JsonRequestBehavior.AllowGet);
-
+                return Json(b1, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(false, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetCoin(int CityId)

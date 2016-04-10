@@ -102,13 +102,13 @@ namespace GameSimulationN.Models
             return ObjCity;
         }
 
-        public GoldCoinViewModel GetCoin(int CityId)
+        public int GetCoin(int CityId)
         {
-            GoldCoinViewModel GoldCoin = new GoldCoinViewModel();
-            int i = _context.Cities.Where(z => z.CityId == CityId).Select(x => x.GoldCoins).FirstOrDefault();
-            GoldCoin.GoldCoins = i;
 
-            return GoldCoin;
+            int i = _context.Cities.Where(z => z.CityId == CityId).Select(x => x.GoldCoins).FirstOrDefault();
+//            GoldCoin.GoldCoins = i;
+
+            return i;
         }
 
         public City CityCoinUpdate(City objCIty, bool toBeAdded)

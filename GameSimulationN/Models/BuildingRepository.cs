@@ -49,51 +49,63 @@ namespace GameSimulationN.Models
         public void Create(BuildingType Building, int CityId)
         {
             var city = _cityRepo.GetCityByID(CityId);
-            BuildingType bt = new BuildingType();
-            bt.BuildingName = Building.BuildingName;
-            bt.CreateDate = DateTime.Now;
-            bt.ModifyDate = DateTime.Now;
-            bt.IsDefault = false;
-
-
-            if (Building.BuildingId > 0)
+            if (city.GoldCoins > 0)
             {
-                _context.Entry(Building).State = EntityState.Modified;
-            }
-            else {
-                _context.BuildingTypes.Add(bt);
-            }
-            _context.SaveChanges();
+                BuildingType bt = new BuildingType();
+                bt.BuildingName = Building.BuildingName;
+                bt.CreateDate = DateTime.Now;
+                bt.ModifyDate = DateTime.Now;
+                bt.IsDefault = false;
 
-            if (Building.BuildingId < 1)
-            {
-                int buildingTypeId = bt.BuildingId;
 
-                CityBuilding cb = new CityBuilding();
-                cb.BuildingId = buildingTypeId;
-                cb.CityId = CityId;
-                cb.Levels = 0;
-                cb.CreateDate = DateTime.Now;
-                cb.ModifyDate = DateTime.Now;
-                _context.CityBuildings.Add(cb);
+                if (Building.BuildingId > 0)
+                {
+                    _context.Entry(Building).State = EntityState.Modified;
+                }
+                else {
+                    _context.BuildingTypes.Add(bt);
+                }
                 _context.SaveChanges();
 
+                if (Building.BuildingId < 1)
+                {
+                    int buildingTypeId = bt.BuildingId;
 
-                UpdateCoin_Create(CityId);
+                    CityBuilding cb = new CityBuilding();
+                    cb.BuildingId = buildingTypeId;
+                    cb.CityId = CityId;
+                    cb.Levels = 0;
+                    cb.CreateDate = DateTime.Now;
+                    cb.ModifyDate = DateTime.Now;
+                    _context.CityBuildings.Add(cb);
+                    _context.SaveChanges();
 
-          
+
+                    UpdateCoin_Create(CityId);
+
+
+                }
             }
-
         }
 
-        public void UpgradeLevel(int CityId, int BuildingId)
+        public bool UpgradeLevel(int CityId, int BuildingId)
         {
             CityBuilding cBld = new CityBuilding();
             cBld = GetCityBuildingByCBId(CityId, BuildingId);
-            cBld.Levels = cBld.Levels + 1;
-            _context.Entry(cBld).State = EntityState.Modified;
-            _context.SaveChanges();
-            UpdateCoin(cBld);
+
+            CityRepository cr = new CityRepository();
+            int i = cr.GetCoin(CityId);
+            if (i > 0)
+            {
+                cBld.Levels = cBld.Levels + 1;
+                _context.Entry(cBld).State = EntityState.Modified;
+                _context.SaveChanges();
+                UpdateCoin(cBld);
+                return true;
+            }
+            else
+            { return false; }
+
         }
 
         public void UpdateCoin(CityBuilding cBld)

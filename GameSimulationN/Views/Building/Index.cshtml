@@ -7,7 +7,12 @@
 <h2>Building</h2>
 
 <p>
-    @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })
+    @if (@Model.FirstOrDefault().GoldCoins > 0)
+    {
+    @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary", id = "CreateBuld" })
+    }
+    else
+    { @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary disabled", id = "CreateBuld" })}
 </p>
 <div class="clearfix">
     <table>
@@ -26,8 +31,8 @@
         </tr>
 
     </table>
-    <input class="form-control" id="cityId" type="hidden" value="@Model.FirstOrDefault().CityId" >
-    <input class="form-control" id="bldId" type="hidden" value="@Model.FirstOrDefault().BuildingId" >
+    <input class="form-control" id="cityId" type="hidden" value="@Model.FirstOrDefault().CityId">
+    <input class="form-control" id="bldId" type="hidden" value="@Model.FirstOrDefault().BuildingId">
 </div>
 <br />
 <table class="table" id="tableBuild">
@@ -60,7 +65,15 @@
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                <button class="btn btn-primary btnUpgrade" data-building-id="@item.BuildingId" data-city-id="@item.CityId" id="@("building"+@item.BuildingId)">Upgrade Level ↑</button>
+
+                @if (item.GoldCoins > 0)
+                {
+                    <button class="btn btn-primary btnUpgrade" data-building-id="@item.BuildingId" data-city-id="@item.CityId" id="@("building" + @item.BuildingId)">Upgrade Level ↑</button>
+                }
+                else
+                {
+                    <button class="btn btn-primary btnUpgrade disabled" data-building-id="@item.BuildingId" data-city-id="@item.CityId" id="@("building" + @item.BuildingId)">Upgrade Level ↑</button>
+                }
             </td>
         </tr>
     }
@@ -93,7 +106,16 @@
                 data: { CityId: cId },
                 url: '@Url.Action("GetCoin", "Building")',
                 success: function (result) {
-                    $("#coinCount").html(result)
+                    //alert(result);
+                    if (result <= 0) {
+                        $(".btn.btn-primary.btnUpgrade").addClass('disabled');
+                        $("#CreateBuld").addClass('disabled');
+                    }
+                    else {
+                        $(".btn.btn-primary.btnUpgrade").removeClass('disabled');
+                        $("#CreateBuld").removeClass('disabled');
+                    }
+                    $("#coinCount").html(result);
                 }
             });
         }
@@ -111,7 +133,7 @@
                     refresh();
                 }
             });
-        });
+        }).delay(5000);
 
     });
 
