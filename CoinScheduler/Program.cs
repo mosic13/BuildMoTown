@@ -11,17 +11,22 @@ namespace CoinScheduler
         static CityContext context;
         public static void Main()
         {
-            Timer t = new Timer(updateCoin, null, 0, 60000);
-            Console.ReadLine();
+            UpdateCoin();
+            //Timer t = new Timer(updateCoin, null, 0, 60000)
         }
-        public static void updateCoin(object o)
+        public static void UpdateCoin()
         {
             context = new CityContext();
             var city = context.Cities.ToList();
+
             foreach (var item in city)
             {
                 item.GoldCoins++;
+                item.ModifyDate = DateTime.Now;
             }
+
+
+
             context.SaveChanges();
             Console.WriteLine("Coin Updated");
             GC.Collect();
