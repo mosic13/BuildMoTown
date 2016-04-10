@@ -18,6 +18,7 @@
     <label class="control-label col-md-1 font-20" for="disabledInput">City: </label>
     <div class="col-lg-3">
         <input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled="">
+        <input class="form-control" id="cityId" type="text" value="@Model.FirstOrDefault().CityId" style="visibility:hidden">
     </div>
 </div>
 <br />
@@ -108,10 +109,11 @@
         }
 
         function refresh() {
+            var cId = $("#cityId%>").val();
             count++;
             $.ajax({
                 type: 'GET',
-                data: { CityId: 1 },
+                data: { CityId: cId },
                 url: '@Url.Action("GetCoin", "Building")',
                 success: function (result) {
                     //alert("success");
