@@ -10,29 +10,32 @@
     @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })
 </p>
 <div class="clearfix">
-    <label class="control-label col-md-1 font-20" for="disabledInput">City: </label>
-    <div class="col-lg-3">
-        <input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled="">
-        <input class="form-control" id="cityId" type="text" value="@Model.FirstOrDefault().CityId" style="visibility:hidden">
-        <input class="form-control" id="bldId" type="text" value="@Model.FirstOrDefault().BuildingId" style="visibility:hidden">
-    </div>
+    <table>
+        <tr>
+            <td><label class="control-label col-md-1 font-20" for="disabledInput">City: </label></td>
+            <td class="col-lg-3"><input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled=""></td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#" class="btn btn-success" style="text-align:center" id="idCoins">
+                    Coins
+                    <img src="~/Content/Coins-icon.png" /> <span id="coinCount" class="badge">@Model.FirstOrDefault().GoldCoins</span>
+                </a>
+            </td>
+
+        </tr>
+
+    </table>
+    <input class="form-control" id="cityId" type="hidden" value="@Model.FirstOrDefault().CityId" >
+    <input class="form-control" id="bldId" type="hidden" value="@Model.FirstOrDefault().BuildingId" >
 </div>
 <br />
-<a href="#" class="btn btn-success" id="idCoins">
-    Coins
-    <img src="~/Content/Coins-icon.png" /> <span id="coinCount" class="badge">@Model.FirstOrDefault().GoldCoins</span>
-</a>
-<br />
-
 <table class="table" id="tableBuild">
 
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.CityId)
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.BuildingId)
-            </th>*@
         <th>
             @Html.DisplayNameFor(model => model.BuildingName)
         </th>
@@ -42,10 +45,6 @@
         <th>
             Upgrade Level
         </th>
-
-        @*<th>
-                @Html.DisplayNameFor(model => model.ModifyDate)
-            </th>*@
         <th></th>
     </tr>
     @foreach (var item in Model)
@@ -62,7 +61,7 @@
             </td>
             <td>
                 <button class="btn btn-primary btnUpgrade" data-building-id="@item.BuildingId" data-city-id="@item.CityId" id="@("building"+@item.BuildingId)">Upgrade Level ↑</button>
-</td>
+            </td>
         </tr>
     }
 </table>
@@ -79,13 +78,13 @@
     var count = 0;
 
     $(document).ready(function () {
-       
+
         window.setInterval(function () {
             refresh();
         }, 5000);
 
-        
-        
+
+
         function refresh() {
             var cId = $("#cityId").val();
             count++;
