@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GameSimulationN.Models
 {
@@ -33,19 +34,9 @@ namespace GameSimulationN.Models
                          GoldCoins = c.GoldCoins,
                          IsDefault = bt.IsDefault
                      }).Where(x => x.CityId == CityId);
-
-
-
-
-            //select cb.*, c.cityid, c.cityname, c.goldcoins, bt.buildingname from CityBuilding cb
-            //Inner join City c on c.CityId = cb.cityid
-            //Inner join BuildingType bt on bt.buildingId = cb.BuildingId
-            //where cb.cityid = 4
-
-
+            
 
             return a.ToList();//
-            //_context.CityBuildings.
 
         }
 
@@ -54,6 +45,7 @@ namespace GameSimulationN.Models
             _context.SaveChanges();
         }
 
+        //[AsyncTimeout(6000)]
         public void Create(BuildingType Building, int CityId)
         {
             var city = _cityRepo.GetCityByID(CityId);
@@ -89,17 +81,13 @@ namespace GameSimulationN.Models
 
                 UpdateCoin_Create(CityId);
 
-                //     //UpdateCoin(cb);
-                // }
-                // _context.SaveChanges();
+          
             }
 
         }
 
         public void UpgradeLevel(int CityId, int BuildingId)
         {
-            //CityBuilding CB = new CityBuilding() { CityId = CityId, BuildingId = BuildingId };
-            // Get Object to update the Level by CIty and Bldg Id
             CityBuilding cBld = new CityBuilding();
             cBld = GetCityBuildingByCBId(CityId, BuildingId);
             cBld.Levels = cBld.Levels + 1;
@@ -113,8 +101,8 @@ namespace GameSimulationN.Models
             CityRepository cr = new CityRepository();
             cBld.City = cr.CityCoinUpdate(cBld.City, false);
             _context.Cities.Attach(cBld.City);
-            _context.Entry(cBld.City).State = EntityState.Modified; //---Monali Today
-            _context.SaveChanges(); //---Monali Today
+            _context.Entry(cBld.City).State = EntityState.Modified; 
+            _context.SaveChanges(); 
         }
 
         public void UpdateCoin_Create(int CityID)
@@ -127,8 +115,8 @@ namespace GameSimulationN.Models
                  select cx).Include(x => x.CityBuildings)
                     .Where(x => x.CityId == CityID).FirstOrDefault();
             c = cr.CityCoinUpdate(c, false);
-            _context.Entry(c).State = EntityState.Modified; //---Monali Today
-            _context.SaveChanges(); //---Monali Today
+            _context.Entry(c).State = EntityState.Modified;
+            _context.SaveChanges(); 
         }
 
 
@@ -136,9 +124,6 @@ namespace GameSimulationN.Models
         private CityBuilding GetCityBuildingByCBId(int CityId, int BldgId)
         {
             CityBuilding cb = new CityBuilding();
-            //_context.CityBuildings.(;
-
-
             cb = (from cb1 in _context.CityBuildings
                   select cb1)
                     .Where(x => x.CityId == CityId).Where(b => b.BuildingId == BldgId).FirstOrDefault();

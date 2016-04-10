@@ -9,27 +9,33 @@
 <p>
     @Html.ActionLink("Add New Building", "Create", "Building", new { id = Model.FirstOrDefault().CityId }, new { @class = "btn btn-primary" })
 </p>
-@*@ViewBag.CityId = @Model.FirstOrDefault().CityId ;*@
 <div class="clearfix">
-    <label class="control-label col-md-1 font-20" for="disabledInput">City: </label>
-    <div class="col-lg-3">
-        <input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled="">
-    </div>
+    <table>
+        <tr>
+            <td><label class="control-label col-md-1 font-20" for="disabledInput">City: </label></td>
+            <td class="col-lg-3"><input class="form-control" id="disabledInput" type="text" placeholder="@Model.FirstOrDefault().CityName" disabled=""></td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#" class="btn btn-success" style="text-align:center" id="idCoins">
+                    Coins
+                    <img src="~/Content/Coins-icon.png" /> <span id="coinCount" class="badge">@Model.FirstOrDefault().GoldCoins</span>
+                </a>
+            </td>
+
+        </tr>
+
+    </table>
+    <input class="form-control" id="cityId" type="hidden" value="@Model.FirstOrDefault().CityId" >
+    <input class="form-control" id="bldId" type="hidden" value="@Model.FirstOrDefault().BuildingId" >
 </div>
-<br/>
-<a href="#" class="btn btn-success">Coins 
-    <img src="~/Content/Coins-icon.png" /> <span class="badge">@Model.FirstOrDefault().GoldCoins</span> </a>
 <br />
-<br />
-<table class="table">
+<table class="table" id="tableBuild">
 
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.CityId)
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.BuildingId)
-            </th>*@
         <th>
             @Html.DisplayNameFor(model => model.BuildingName)
         </th>
@@ -39,36 +45,74 @@
         <th>
             Upgrade Level
         </th>
-
-        @*<th>
-                @Html.DisplayNameFor(model => model.ModifyDate)
-            </th>*@
         <th></th>
     </tr>
     @foreach (var item in Model)
     {
         <tr>
-
-
             <td>
                 @Html.DisplayFor(modelItem => item.CityId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BuildingName)
             </td>
-            <td>
+            <td class="level">
                 @Html.DisplayFor(modelItem => item.Levels)
             </td>
             <td>
-                @Html.ActionLink("Upgrade Level", "UpgradeLevel", "Building", new { CityId = item.CityId, BuildingId = item.BuildingId }, null)
+                <button class="btn btn-primary btnUpgrade" data-building-id="@item.BuildingId" data-city-id="@item.CityId" id="@("building"+@item.BuildingId)">Upgrade Level ↑</button>
             </td>
-
         </tr>
     }
-
-
 </table>
 
 <div>
     @Html.ActionLink("← Back to City", "Index", "City", null, new { @class = "btn btn-primary" })
 </div>
+
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var autoRefresh = true;
+    var autoRefreshInterval = 1000 * 30;   //mili seconds (set to 5 seconds)
+    var count = 0;
+
+    $(document).ready(function () {
+
+        window.setInterval(function () {
+            refresh();
+        }, 5000);
+
+
+
+        function refresh() {
+            var cId = $("#cityId").val();
+            count++;
+            $.ajax({
+                type: 'GET',
+                data: { CityId: cId },
+                url: '@Url.Action("GetCoin", "Building")',
+                success: function (result) {
+                    $("#coinCount").html(result)
+                }
+            });
+        }
+
+        $(".btnUpgrade").click(function () {
+            var Bid = $(this).data("building-id");
+            var Cid = $(this).data("city-id");
+            var level;
+            $.ajax({
+                type: 'GET',
+                data: { CityId: Cid, BuildingId: Bid },
+                url: '@Url.Action("UpgradeLevel", "Building")',
+                success: function (result) {
+                    $("#building" + result.BuildingId).parent().parent().find("td.level").html(result.Levels);
+                    refresh();
+                }
+            });
+        });
+
+    });
+
+</script>

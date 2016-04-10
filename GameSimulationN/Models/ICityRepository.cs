@@ -13,5 +13,7 @@ namespace GameSimulationN.Models
         int Save();
         List<CityViewModel> GetCities();
         void Create(BuildingType building);
+        City CityCoinUpdate(City objCIty, bool toBeAdded);
+        GoldCoinViewModel GetCoin(int CityId);
     }
 }

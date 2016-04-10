@@ -39,15 +39,17 @@ namespace GameSimulationN.Controllers
 
         }
 
+
+
         [HttpPost]
         public ActionResult Create(BuildingType buildingType)
-        {   
+        {
             _repo.Create(buildingType, Convert.ToInt16(TempData.Peek("CityId")));
 
-            return RedirectToAction("List", new {id= Convert.ToInt16(TempData.Peek("CityId")) });
+            return RedirectToAction("List", new { id = Convert.ToInt16(TempData.Peek("CityId")) });
 
         }
-
+        
         [HttpPost]
         public ActionResult Edit(BuildingType buildingType)
         {
@@ -60,8 +62,21 @@ namespace GameSimulationN.Controllers
         public ActionResult UpgradeLevel(int CityId , int BuildingId)
         {
             _repo.UpgradeLevel(CityId, BuildingId);
+            BuildingRepository br = new BuildingRepository();
+            List<Building> b = new List<Building>();
+            Building b1 = br.GetBuildingByCity(CityId).Where(x => x.BuildingId == BuildingId).Single();
 
-            return RedirectToAction("List", new { id = CityId });
+            return Json(b1, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult GetCoin(int CityId)
+        {
+           
+            CityRepository cr = new CityRepository();
+            City c = new City();c = cr.GetCityByID(CityId);
+
+            return Content(c.GoldCoins.ToString(), "text/plain");
 
 
         }

@@ -102,6 +102,15 @@ namespace GameSimulationN.Models
             return ObjCity;
         }
 
+        public GoldCoinViewModel GetCoin(int CityId)
+        {
+            GoldCoinViewModel GoldCoin = new GoldCoinViewModel();
+            int i = _context.Cities.Where(z => z.CityId == CityId).Select(x => x.GoldCoins).FirstOrDefault();
+            GoldCoin.GoldCoins = i;
+
+            return GoldCoin;
+        }
+
         public City CityCoinUpdate(City objCIty, bool toBeAdded)
         {
 
@@ -122,9 +131,6 @@ namespace GameSimulationN.Models
             throw new NotImplementedException();
         }
 
-        //public void Create(BuildingType building)
-        //{
-        //    throw new NotImplementedException();
-        //}
+      
     }
 }
