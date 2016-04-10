@@ -44,22 +44,6 @@ namespace GameSimulationN.Controllers
             return RedirectToAction("List", "Building", new { id = CityId });
         }
 
-        public ActionResult GetCoin(int CityId)
-        {
-            _repo.GetCoin(CityId);
-
-            return RedirectToAction("List", "Building", new { id = CityId });
-                
-                //Json(new { id = })
-
-            //return PartialView("List", "Building", new { id = CityId });
-
-            //GoldCoinViewModel cityVM = new GoldCoinViewModel();
-
-            //return View(cityVM);
-
-        }
-
 
     }
 }

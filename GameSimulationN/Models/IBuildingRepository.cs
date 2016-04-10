@@ -6,7 +6,7 @@ namespace GameSimulationN.Models
         List<Building> GetBuildingByCity(int CityId);
         //void Create(string BuildingName, int CityId);
         void Create(BuildingType Building, int CityId);
-        void UpgradeLevel(int CityId, int BuildingId);
+        bool UpgradeLevel(int CityId, int BuildingId);
 
     }
 }
